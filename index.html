@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busdienst Systeem - Dutch Utrecht Roleplay</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #222;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      max-width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      color: #0078d4;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 80%;
+      padding: 10px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      background-color: #0078d4;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .logout {
+      background-color: #ff4c4c;
+    }
+
+    .logout:hover {
+      background-color: #d63d3d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Busdienst Systeem</h1>
+    <p>Welkom bij Dutch Utrecht Roleplay</p>
+
+    <div id="login-section">
+      <input type="text" id="username" placeholder="Gebruikersnaam (bijv. Discord-tag)">
+      <button onclick="login()">Inloggen</button>
+    </div>
+
+    <div id="main-section" style="display:none;">
+      <p id="welcome"></p>
+      <button id="clockInBtn" onclick="clockIn()">🟢 Inklokken</button>
+      <button id="clockOutBtn" class="logout" onclick="clockOut()">🔴 Uitklokken</button>
+      <div class="status" id="statusText">Status: Uit dienst</div>
+      <button onclick="logout()">Afmelden</button>
+    </div>
+  </div>
+
+  <script>
+    let loggedInUser = null;
+    let inDienst = false;
+
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      if (username === "") {
+        alert("Vul een gebruikersnaam in!");
+        return;
+      }
+      loggedInUser = username;
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('main-section').style.display = 'block';
+      document.getElementById('welcome').innerText = "Ingelogd als: " + username;
+      updateStatus();
+    }
+
+    function clockIn() {
+      if (!inDienst) {
+        inDienst = true;
+        updateStatus();
+      }
+    }
+
+    function clockOut() {
+      if (inDienst) {
+        inDienst = false;
+        updateStatus();
+      }
+    }
+
+    function updateStatus() {
+      const statusText = document.getElementById('statusText');
+      statusText.innerText = inDienst ? "Status: 🟢 In dienst" : "Status: 🔴 Uit dienst";
+    }
+
+    function logout() {
+      loggedInUser = null;
+      inDienst = false;
+      document.getElementById('login-section').style.display = 'block';
+      document.getElementById('main-section').style.display = 'none';
+      document.getElementById('username').value = "";
+    }
+  </script>
+</body>
+</html>
